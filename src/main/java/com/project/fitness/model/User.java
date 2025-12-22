@@ -28,4 +28,5 @@ public class User {
     private List<Recommendation> recommendations = new ArrayList<>();
 
 
+
 }

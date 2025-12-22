@@ -26,4 +26,6 @@ public class User {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<Recommendation> recommendations = new ArrayList<>();
+
+
 }

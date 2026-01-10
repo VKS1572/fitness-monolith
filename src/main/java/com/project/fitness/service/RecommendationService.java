@@ -40,7 +40,7 @@ public class RecommendationService {
     }
 
     public List<Recommendation> getUserRecommendation(String userId) {
-        return recommendationRepository.findByUserid(userId);
+        return recommendationRepository.findByUserId(userId);
     }
 
     public List<Recommendation> getActivityRecommendation(String activityId) {

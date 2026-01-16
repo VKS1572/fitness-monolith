@@ -32,7 +32,7 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .subject(userId)
-                .claim("roles", List.of(new SimpleGrantedAuthority(role)) )
+                .claim("roles", List.of(role) )
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(key())
@@ -53,7 +53,7 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret));
     }
 
-    public String getUsernameFromToken(String jwt) {
+    public String getUserIdFromToken(String jwt) {
         return Jwts.parser().verifyWith((SecretKey) key())
                 .build().parseSignedClaims(jwt)
                 .getPayload().getSubject();

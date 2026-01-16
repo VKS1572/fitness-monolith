@@ -1,5 +1,6 @@
 package com.project.fitness.service;
 
+import com.project.fitness.dto.LoginRequest;
 import com.project.fitness.dto.RegisterRequest;
 import com.project.fitness.dto.UserResponse;
 import com.project.fitness.model.UserRole;
@@ -7,6 +8,7 @@ import com.project.fitness.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.project.fitness.model.User;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +58,16 @@ public class UserService {
             response.setCreatedAt(savedUser.getCreatedAt());
             response.setUpdatedAt(savedUser.getUpdateAt());
             return response;
+    }
+
+    public User authenticate(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getEmail());
+        if(user == null)
+            throw new RuntimeException("Invalid Credentials");
+
+        if(!passwordEncoder.matches(loginRequest.getPassword(),user.getPassword() )){
+            throw new RuntimeException("Invalid Credentials");
+        }
+        return user;
     }
 }

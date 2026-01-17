@@ -10,4 +10,5 @@ public class FitnessMonolithApplication {
 		SpringApplication.run(FitnessMonolithApplication.class, args);
 	}
 
+
 }

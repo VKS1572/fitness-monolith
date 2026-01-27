@@ -2,6 +2,7 @@ package com.project.fitness.service;
 
 import com.project.fitness.dto.RecommendationRequest;
 import com.project.fitness.model.Activity;
+import com.project.fitness.model.ActivityType;
 import com.project.fitness.model.Recommendation;
 import com.project.fitness.model.User;
 import com.project.fitness.repository.ActivityRepository;
@@ -21,22 +22,21 @@ public class RecommendationService {
     private final RecommendationRepository recommendationRepository;
 
     public Recommendation generateRecommendation(RecommendationRequest request) {
-    User user = userRepository.findById(request.getUserId())
-            .orElseThrow(()-> new RuntimeException("User Not Found:"+ request.getUserId()));
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new RuntimeException("User Not Found: " + request.getUserId()));
 
         Activity activity = activityRepository.findById(request.getActivityId())
-                .orElseThrow(()-> new RuntimeException("User Not Found:"+ request.getActivityId()));
+                .orElseThrow(() -> new RuntimeException("Activity Not Found: " + request.getActivityId()));
 
-    Recommendation recommendation = Recommendation.builder()
-            .user(user)
-            .activity(activity)
-            .improvements(request.getImprovements())
-            .suggestions(request.getSuggestions())
-            .safety(request.getSafety())
-            .build();
+        Recommendation recommendation = Recommendation.builder()
+                .user(user)
+                .activity(activity)
+                .improvements(request.getImprovements())
+                .suggestions(request.getSuggestions())
+                .safety(request.getSafety())
+                .build();
 
-
-     return recommendationRepository.save(recommendation);
+        return recommendationRepository.save(recommendation);
     }
 
     public List<Recommendation> getUserRecommendation(String userId) {
@@ -44,6 +44,6 @@ public class RecommendationService {
     }
 
     public List<Recommendation> getActivityRecommendation(String activityId) {
-       return  recommendationRepository.findByActivityId(activityId);
+        return recommendationRepository.findByActivityId(activityId);
     }
 }

@@ -7,7 +7,6 @@ import com.project.fitness.model.User;
 import com.project.fitness.repository.ActivityRepository;
 import com.project.fitness.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,9 +18,10 @@ public class ActivityService {
     private final ActivityRepository activityRepository;
     private final UserRepository userRepository;
 
-    public ActivityResponse trackActivity(ActivityRequest request){
+    public ActivityResponse trackActivity(ActivityRequest request) {
         User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("Invalid user :"+ request.getUserId()));
+                .orElseThrow(() -> new RuntimeException("Invalid user: " + request.getUserId()));
+
         Activity activity = Activity.builder()
                 .user(user)
                 .type(request.getType())
@@ -31,13 +31,14 @@ public class ActivityService {
                 .additionalMetrics(request.getAdditionalMetrics())
                 .build();
 
-        Activity savedActivity =  activityRepository.save(activity);
-        return  mapToResponse(savedActivity);
+        Activity savedActivity = activityRepository.save(activity);
+        return mapToResponse(savedActivity);
     }
 
     private ActivityResponse mapToResponse(Activity activity) {
         ActivityResponse response = new ActivityResponse();
-        response.setId(activity.getUser().getId());
+        response.setId(activity.getId());
+        response.setUserId(activity.getUser().getId());
         response.setType(activity.getType());
         response.setDuration(activity.getDuration());
         response.setCaloriesBurned(activity.getCaloriesBurned());
@@ -49,8 +50,7 @@ public class ActivityService {
     }
 
     public List<ActivityResponse> getUserActivities(String userId) {
-     List<Activity> activityList = activityRepository.findByUserId(userId);
-     //Activty -->ActivityResponse// Collect in list and return
+        List<Activity> activityList = activityRepository.findByUserId(userId);
         return activityList.stream()
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());

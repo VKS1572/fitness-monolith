@@ -18,7 +18,7 @@ import java.util.List;
 @Component
 public class JwtUtils {
 
-    private String jwtSecret = "";
+    private String jwtSecret = "YS1zdHJpbmctc2VjcmV0LWF0LWxlYXN0LTI1Ni1iaXRzLWxvbmc=";
     private int jwtExpirationMs = 172800000;
 
     public String getJwtFromHeader(HttpServletRequest request) {
@@ -28,11 +28,10 @@ public class JwtUtils {
         return null;
     }
 
-    public String generateToken(String userId,String role) {
-
+    public String generateToken(String userId, String role) {
         return Jwts.builder()
                 .subject(userId)
-                .claim("roles", List.of(role) )
+                .claim("roles", List.of(role))
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + jwtExpirationMs))
                 .signWith(key())

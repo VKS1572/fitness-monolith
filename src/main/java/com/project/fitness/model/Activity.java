@@ -27,7 +27,7 @@ public class Activity {
     private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false,foreignKey = @ForeignKey(name = "fk_activity_user"))
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "fk_activity_user"))
     @JsonIgnore
     private User user;
 
@@ -36,7 +36,7 @@ public class Activity {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "json")
-    private Map<String,Object> additionalMetrics;
+    private Map<String, Object> additionalMetrics;
 
     private Integer duration;
     private Integer caloriesBurned;
@@ -46,9 +46,9 @@ public class Activity {
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    private  LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "activity",cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Recommendation> recommendations = new ArrayList<>();
 }
